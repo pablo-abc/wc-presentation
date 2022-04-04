@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,400;0,700;1,400&family=Roboto+Slab:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Web Components</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+    <link rel="stylesheet" href="theme.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+
+    <style>
+      .wc-example pre {
+        font-size: 1.1rem;
+        height: 90vh;
+        margin-top: -1%;
+      }
+     .inline-code pre {
+       display: inline-block;
+       width: auto;
+     }
+     .inline-code pre code {
+       border-radius: 10px;
+     }
+     .editor-iframe {
+       height: 100vh;
+       width: 70vw;
+     }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Fantastic web components and how to build them</h1>
+        </section>
+        <section>
+          <section>
+            <h1>Me</h1>
+            <ul>
+              <li class="fragment fade-right">Your coworker</li>
+              <li class="fragment fade-right">Frontendfullstackish developer</li>
+              <li class="fragment fade-right">Open source maintainer</li>
+              <li class="fragment fade-right">Implementing a web component wrapper</li>
+            </ul>
+          </section>
+          <section>
+            <iframe class="editor-iframe" src="https://felte.dev"></iframe>
+          </section>
+          <section>
+            <iframe class="editor-iframe" src="felte-editor.html"></iframe>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>What are web components?</h1>
+          </section>
+          <section>
+            <strong>NOT</strong> a replacement for your favourite framework
+          </section>
+          <section>
+            Another browser API that can be added to your toolbox
+          </section>
+          <section>
+            <p>
+              A set of technologies provided by browsers to create custom reusable HTML tags
+            </p>
+            <ul>
+              <li class="fragment fade-right">Custom elements</li>
+              <li class="fragment fade-right">Shadow DOM</li>
+              <li class="fragment fade-right">HTML Templates</li>
+              <li class="fragment fade-right">ES Modules</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Custom Elements</h1>
+          </section>
+          <section>
+            The main concept you think of when thinking about Web Components
+          </section>
+          <section>
+            Allows you to extend from HTMLElement in order to create a custom tag
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+```javascript
+class MyElement extends HTMLElement {
+// ...
+}
+
+customElements.define('my-element', MyElement);
+```
+```html
+<my-element></my-element>
+```
+            </textarea>
+          </section>
+          <section>
+            <h2>Provides lifecycle methods</h2>
+            <ul>
+              <li class="fragment fade-right">
+                constructor
+              </li>
+              <li class="fragment fade-right">connectedCallback</li>
+              <li class="fragment fade-right">disconnectedCallback</li>
+              <li class="fragment fade-right">attributeChangedCallback</li>
+            </ul>
+          </section>
+          <section>
+            <strong>constructor</strong>
+            <p>Called when an instance is created</p>
+            <span class="fragment inline-code">
+              <pre><code class="javascript">new MyElement()</code></pre>
+              or
+              <pre><code class="javascript">document.createElement('my-element')</code></pre>
+            </span>
+          </section>
+          <section>
+            <strong>connectedCallback</strong>
+            <p>Called each time the element is <em>appended</em> to another document-connected element</p>
+            <span class="fragment inline-code">
+              <pre><code class="javascript">document.body.appendChild(myEl)</code></pre>
+            </span>
+          </section>
+          <section>
+            <strong>disconnectedCallback</strong>
+            <p>Called each time the element is <em>removed</em> from the DOM</p>
+            <span class="fragment inline-code">
+              <pre><code class="javascript">document.body.removeChild(myEl)</code></pre>
+            </span>
+          </section>
+          <section>
+            <strong>attributeChangedCallback</strong>
+            <p>Called each time an <em>observed</em> attribute of the element is added, removed or changed.</p>
+            <span class="fragment inline-code">
+              <pre><code class="javascript">myEl.setAttribute('label', 'A label')</code></pre>
+            </span>
+            <p class="fragment">Observed attributes are defined by the static property <code><em>observedAttributes</em></code></p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Shadow DOM</h1>
+          </section>
+          <section>
+            Isolates your element from (almost) all external styles and JavaScript
+          </section>
+          <section>
+            Allows you to pass in children using &lt;slot&gt;
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```html
+              ▼ <my-element>
+              |    ▶ #shadow-root (open)
+              | </my-element>
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+```javascript [|4|5]
+class MyElement extends HTMLElement {
+  constructor() {
+    super();
+    const root = this.attachShadow({ mode: 'open' });
+    root === this.shadowRoot;
+  }
+}
+```
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>HTML Templates</h1>
+          </section>
+          <section>
+            Allows you to write HTML templates that won't be rendered until cloned and appended somewhere else with JavaScript
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ```html [|5-7|1-4]
+              <script type="module">
+               const template = document.querySelector('template');
+               document.body.appendChild(template.content.cloneNode(true));
+              </script>
+              <template>
+                <h1>This will not show until JS loads</h1>
+              </template>
+              ```
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <h1>ES Modules</h1>
+        </section>
+        <section>
+          <section>
+            <h1>Styling</h1>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+## CSS custom properties
+
+```html
+<style>
+ .container {
+   background-color: var(--my-background, pink);
+ }
+</style>
+<div class="container">
+  <h1>A title</h1>
+</div>
+```
+
+```css
+my-element {
+ --my-background: tomato;
+}
+```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+## CSS ::part selector
+
+```html
+<div part="base">
+  <h1 part="title">A title</h1>
+</div>
+```
+
+```css
+my-element::part(title) {
+  margin: 0;
+  color: pink;
+  font-weight: 700;
+}
+```
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Support</h1>
+          </section>
+          <section>
+            <iframe class="editor-iframe" src="https://caniuse.com/?search=web%20components"></iframe>
+          </section>
+        </section>
+        <!-- IN ACTION -->
+        <section>
+          <section>
+            <h1>In action</h1>
+          </section>
+          <section>
+            <iframe class="editor-iframe" src="editor.html"></iframe>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Let's build a modal!</h1>
+          </section>
+          <section>
+            <iframe class="editor-iframe" src="modal-editor.html"></iframe>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+                ```html [|10-13|2-3|5-7]
+                <script type="module">
+                 const modal = document.querySelector('my-modal');
+                 const openButton = document.querySelector('#open-button');
+
+                 openButton.addEventListener('click', () => {
+                   modal.show();
+                 });
+                </script>
+
+                <button id="open-button">Click me!</button>
+                <my-modal label="Modal!">
+                  <p>This content was assigned using slots!</p>
+                </my-modal>
+                ```
+              </textarea
+            >
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Vanilla JS</h1>
+          </section>
+          <section data-markdown="vanilla-example.md" class="wc-example">
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>StencilJS</h1>
+          </section>
+          <section data-markdown="stencil-example.md" class="wc-example">
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Lit</h1>
+          </section>
+          <section data-markdown="lit-example.md" class="wc-example">
+          </section>
+          <section data-markdown="lit-ts-example.md" class="wc-example">
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Atomico</h1>
+          </section>
+          <section data-markdown="atomico-example.md" class="wc-example">
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Solid</h1>
+          </section>
+          <section data-markdown="solid-example.md" class="wc-example">
+          </section>
+        </section>
+        <section>
+          <section>
+            <h1>Svelte</h1>
+          </section>
+          <section data-markdown="svelte-example.md" class="wc-example">
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+```javascript
+import { get_current_component } from 'svelte/internal';
+const host = get_current_component();
+```
+
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <h1>Issues</h1>
+          <ul>
+            <li class="fragment fade-right">Global scope</li>
+            <li class="fragment fade-right">No spec for SSR</li>
+            <li class="fragment fade-right">Some compatibility issues with React (possibly fixed in v18/v19)</li>
+          </ul>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+# Links
+
+- [Custom Elements Everywhere](https://custom-elements-everywhere.com/)
+- [All the Ways to Make a Web Component](https://webcomponents.dev/blog/all-the-ways-to-make-a-web-component/)
+- [stenciljs.com](https://stenciljs.com)
+- [lit.dev](https://lit.dev)
+- [atomicojs.github.io](https://atomicojs.github.io/)
+- [Shoelace](https://shoelace.style/)
+- [Vaadin](https://vaadin.com/docs/latest/ds/components)
+- [Material Web](https://github.com/material-components/material-web)
+          </textarea>
+        </section>
+        <section>
+          <h1>Thanks!</h1>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/zoom/zoom.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom],
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+:root {
+  --color-primary-0: #e34495;
+  --color-primary-1: #f499c7;
+  --color-primary-2: #ec69ab;
+  --color-primary-3: #da2280;
+  --color-primary-4: #c60065;
+  --color-primary-on-alt: #8c0048;
+
+  --color-secondary-1-0: #ff914c;
+  --color-secondary-1-1: #ffc49f;
+  --color-secondary-1-2: #ffa872;
+  --color-secondary-1-3: #ff7a28;
+  --color-secondary-1-4: #f15c00;
+
+  --color-secondary-2-0: #7f4acd;
+  --color-secondary-2-1: #bc9cec;
+  --color-secondary-2-2: #9a6ddc;
+  --color-secondary-2-3: #672cbd;
+  --color-secondary-2-4: #4b0ea4;
+
+  --color-complement-0: #b4f349;
+  --color-complement-1: #d8fb9d;
+  --color-complement-2: #c4f76e;
+  --color-complement-3: #a5f026;
+  --color-complement-4: #8de000;
+
+  --background-color: hsl(300, 29%, 91%);
+  --background-color-alt: #ffbfed;
+  --color-heading: #c60065;
+  --color-subheading: var(--color-secondary-2-4);
+  --base-font-color: #523e49;
+  --base-font-color-on-alt: #361e2a;
+  --color-link: #33007e;
+  --color-card-hover: #d3c6e6;
+  --color-stats: #77606c;
+  --background-color-quote: #fff7fb;
+  --color-memage: var(--color-secondary-2-2);
+
+  --color-h3: hsl(23, 100%, 37%);
+
+  --background-codespan: hsl(300, 29%, 86%);
+
+  --h1: 3rem;
+
+  --r-background-color: var(--background-color);
+  --r-main-color: var(--base-font-color-on-alt);
+  --r-main-font: 'Overpass', sans-serif;
+}
+
+.slides h1,
+.slides h2,
+.slides h3 {
+  color: var(--color-primary-on-alt);
+  font-family: 'Roboto Slab', serif;
+}
+
+html-code-editor {
+  font-size: 1rem;
+}
+html-code-editor::part(preview) {
+  border: none;
+  border-left: 1px solid black;
+}
+html-code-editor::part(toolbar) {
+  margin: 0.5rem;
+}
+html-code-editor::part(editor) {
+  border-right: 1px solid black;
+}
+html-code-editor::part(button) {
+  border: none;
+  background: var(--color-primary-on-alt);
+  color: white;
+  border-radius: 10px;
+  padding-top: 4px;
+}
+html-code-editor::part(button):hover {
+  background: var(--color-primary-4);
+  cursor: pointer;
+}
+html-code-editor::part(button):active {
+  background: var(--color-primary-2);
+}
+html-code-editor::part(button):disabled {
+  background: var(--color-primary-on-alt);
+  opacity: 0.2;
+  cursor: not-allowed;
+}
