@@ -1,13 +1,14 @@
 import 'https://cdn.jsdelivr.net/npm/@pberganza/html-code-editor@0.0.6/dist/src/html-code-editor.min.js';
 const editor = document.createElement('html-code-editor');
 editor.setAttribute('shown', 'preview');
-editor.code = `
+editor.code = /*html*/ `
 <!DOCTYPE html>
 <html>
   <head>
     <script type="module">
-      import 'https://cdn.skypack.dev/@felte/element';
-      import { reporter } from 'https://cdn.skypack.dev/@felte/reporter-element';
+      import 'https://unpkg.com/@felte/element@0.4.0/dist/min/felte-form.js';
+      import 'https://unpkg.com/@felte/reporter-element@0.2.0/dist/min/validation-message.js';
+      import { reporter } from 'https://unpkg.com/@felte/reporter-element@0.2.0/dist/min/index.js';
       const felteForm = document.querySelector('felte-form');
       const submittedSection = document.getElementById('submitted');
       felteForm.configuration = {

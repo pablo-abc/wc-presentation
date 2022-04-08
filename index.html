@@ -29,17 +29,17 @@
         height: 90vh;
         margin-top: -1%;
       }
-     .inline-code pre {
-       display: inline-block;
-       width: auto;
-     }
-     .inline-code pre code {
-       border-radius: 10px;
-     }
-     .editor-iframe {
-       height: 100vh;
-       width: 70vw;
-     }
+      .inline-code pre {
+        display: inline-block;
+        width: auto;
+      }
+      .inline-code pre code {
+        border-radius: 10px;
+      }
+      .editor-iframe {
+        height: 100vh;
+        width: 70vw;
+      }
     </style>
   </head>
   <body>
@@ -53,9 +53,13 @@
             <h1>Me</h1>
             <ul>
               <li class="fragment fade-right">Your coworker</li>
-              <li class="fragment fade-right">Frontendfullstackish developer</li>
+              <li class="fragment fade-right">
+                Frontendfullstackish developer
+              </li>
               <li class="fragment fade-right">Open source maintainer</li>
-              <li class="fragment fade-right">Implementing a web component wrapper</li>
+              <li class="fragment fade-right">
+                Implementing a web component wrapper
+              </li>
             </ul>
           </section>
           <section>
@@ -77,7 +81,8 @@
           </section>
           <section>
             <p>
-              A set of technologies provided by browsers to create custom reusable HTML tags
+              A set of technologies provided by browsers to create custom
+              reusable HTML tags
             </p>
             <ul>
               <li class="fragment fade-right">Custom elements</li>
@@ -95,7 +100,8 @@
             The main concept you think of when thinking about Web Components
           </section>
           <section>
-            Allows you to extend from HTMLElement in order to create a custom tag
+            Allows you to extend from HTMLElement in order to create a custom
+            tag
           </section>
           <section data-markdown>
             <textarea data-template>
@@ -112,11 +118,40 @@ customElements.define('my-element', MyElement);
             </textarea>
           </section>
           <section>
+            <h2>Two kinds</h2>
+            <ul>
+              <li class="fragment fade-right">Autonomous custom elements</li>
+              <li class="fragment fade-right">Customized built-in elements</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Autonomous custom elements</h2>
+            <p>
+              Lets you create a custom tag (must contain a dash in its name)
+            </p>
+            <p>They extend directly from HTMLElement</p>
+            <span class="fragment inline-code">
+              <pre><code class="html">&lt;my-custom-tag&gt;&lt;/my-custom-tag&gt;</code></pre>
+            </span>
+          </section>
+          <section>
+            <h2>Customized built-in elements</h2>
+            <p>
+              Lets you extend from existing elements (E.g. HTMLButtonElement)
+            </p>
+            <span class="fragment inline-code">
+              <pre><code class="html">&lt;button is="my-button"&gt;&lt;/button&gt;</code></pre>
+            </span>
+            <p class="fragment">
+              Even though it's part of the spec, the Safari team has stated
+              repeatedly they will <em>NOT</em> implement this, so I will not
+              focus on this
+            </p>
+          </section>
+          <section>
             <h2>Provides lifecycle methods</h2>
             <ul>
-              <li class="fragment fade-right">
-                constructor
-              </li>
+              <li class="fragment fade-right">constructor</li>
               <li class="fragment fade-right">connectedCallback</li>
               <li class="fragment fade-right">disconnectedCallback</li>
               <li class="fragment fade-right">attributeChangedCallback</li>
@@ -133,7 +168,10 @@ customElements.define('my-element', MyElement);
           </section>
           <section>
             <strong>connectedCallback</strong>
-            <p>Called each time the element is <em>appended</em> to another document-connected element</p>
+            <p>
+              Called each time the element is <em>appended</em> to another
+              document-connected element
+            </p>
             <span class="fragment inline-code">
               <pre><code class="javascript">document.body.appendChild(myEl)</code></pre>
             </span>
@@ -147,11 +185,17 @@ customElements.define('my-element', MyElement);
           </section>
           <section>
             <strong>attributeChangedCallback</strong>
-            <p>Called each time an <em>observed</em> attribute of the element is added, removed or changed.</p>
+            <p>
+              Called each time an <em>observed</em> attribute of the element is
+              added, removed or changed.
+            </p>
             <span class="fragment inline-code">
               <pre><code class="javascript">myEl.setAttribute('label', 'A label')</code></pre>
             </span>
-            <p class="fragment">Observed attributes are defined by the static property <code><em>observedAttributes</em></code></p>
+            <p class="fragment">
+              Observed attributes are defined by the static property
+              <code><em>observedAttributes</em></code>
+            </p>
           </section>
         </section>
         <section>
@@ -159,11 +203,10 @@ customElements.define('my-element', MyElement);
             <h1>Shadow DOM</h1>
           </section>
           <section>
-            Isolates your element from (almost) all external styles and JavaScript
+            Isolates your element from (almost) all external styles and
+            JavaScript
           </section>
-          <section>
-            Allows you to pass in children using &lt;slot&gt;
-          </section>
+          <section>Allows you to pass in children using &lt;slot&gt;</section>
           <section data-markdown>
             <textarea data-template>
               ```html
@@ -192,7 +235,8 @@ class MyElement extends HTMLElement {
             <h1>HTML Templates</h1>
           </section>
           <section>
-            Allows you to write HTML templates that won't be rendered until cloned and appended somewhere else with JavaScript
+            Allows you to write HTML templates that won't be rendered until
+            cloned and appended somewhere else with JavaScript
           </section>
           <section data-markdown>
             <textarea data-template>
@@ -209,11 +253,38 @@ class MyElement extends HTMLElement {
           </section>
         </section>
         <section>
-          <h1>ES Modules</h1>
+          <section>
+            <h1>ES Modules</h1>
+          </section>
+          <section>Code in independent modules that execute only once</section>
+          <section>
+            Allows for a "modular" distribution of independent custom elements
+          </section>
         </section>
         <section>
           <section>
-            <h1>Styling</h1>
+            <h1>Styling (the shadow DOM)</h1>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+## If authoring
+```html
+<style>
+  #some-id {
+    background: tomato;
+    color: darkblue;
+  }
+</style>
+```
+A style tag within the Shadow DOM will be scoped to it.
+            </textarea>
+          </section>
+          <section>
+            <h2>If using</h2>
+            <p>
+              It's the responsibility of the author to expose <em>what</em> can
+              be styled by users
+            </p>
           </section>
           <section data-markdown>
             <textarea data-template>
@@ -258,11 +329,49 @@ my-element::part(title) {
           </section>
         </section>
         <section>
+          <h1>Use cases</h1>
+          <ul>
+            <li class="fragment fade-right">Design systems</li>
+            <li class="fragment fade-right">Progressive enhancements</li>
+            <li class="fragment fade-right">Complex widgets</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Goodies</h1>
+          <ul>
+            <li class="fragment fade-right">Code reusability</li>
+            <li class="fragment fade-right">Proper style encapsulation</li>
+            <li class="fragment fade-right">Part of the spec (future proof)</li>
+            <li class="fragment fade-right">Zero tooling needed</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Issues</h1>
+          <ul>
+            <li class="fragment fade-right">
+              Global scope
+              <span class="fragment">E.g.: &lt;mwc-button&gt;</span>
+            </li>
+            <li class="fragment fade-right">No spec for SSR</li>
+            <li class="fragment fade-right">
+              Polyfilling the shadow DOM can be tricky (if really old browsers
+              need to be supported)
+            </li>
+            <li class="fragment fade-right">
+              Some compatibility issues with React (possibly fixed in v19).
+              Although wrappers exist. (E.g. @lit-labs/react)
+            </li>
+          </ul>
+        </section>
+        <section>
           <section>
             <h1>Support</h1>
           </section>
           <section>
-            <iframe class="editor-iframe" src="https://caniuse.com/?search=web%20components"></iframe>
+            <iframe
+              class="editor-iframe"
+              src="https://caniuse.com/?search=web%20components"
+            ></iframe>
           </section>
         </section>
         <!-- IN ACTION -->
@@ -306,44 +415,115 @@ my-element::part(title) {
           <section>
             <h1>Vanilla JS</h1>
           </section>
-          <section data-markdown="vanilla-example.md" class="wc-example">
-          </section>
+          <section
+            data-markdown="vanilla-example.md"
+            class="wc-example"
+          ></section>
         </section>
         <section>
           <section>
             <h1>StencilJS</h1>
           </section>
-          <section data-markdown="stencil-example.md" class="wc-example">
+          <section
+            data-markdown="stencil-example.md"
+            class="wc-example"
+          ></section>
+          <section>
+            <h2>Why Stencil?</h2>
+            <ul>
+              <li class="fragment fade-right">"Batteries included"</li>
+              <li class="fragment fade-right">
+                Includes polyfills for older browsers
+              </li>
+              <li class="fragment fade-right">
+                Shadow DOM is optional (scoped CSS, slot simulation)
+              </li>
+              <li class="fragment fade-right">JSX!</li>
+              <li class="fragment fade-right">
+                Automatic generation of bindings for frameworks
+              </li>
+            </ul>
           </section>
         </section>
         <section>
           <section>
             <h1>Lit</h1>
           </section>
-          <section data-markdown="lit-example.md" class="wc-example">
-          </section>
-          <section data-markdown="lit-ts-example.md" class="wc-example">
+          <section data-markdown="lit-example.md" class="wc-example"></section>
+          <section
+            data-markdown="lit-ts-example.md"
+            class="wc-example"
+          ></section>
+          <section>
+            <h2>Why Lit?</h2>
+            <ul>
+              <li class="fragment fade-right">Minimal/zero tooling needed</li>
+              <li class="fragment fade-right">
+                Declarative templating (template literals)
+              </li>
+              <li class="fragment fade-right">Library, not a framework</li>
+            </ul>
           </section>
         </section>
         <section>
           <section>
             <h1>Atomico</h1>
           </section>
-          <section data-markdown="atomico-example.md" class="wc-example">
+          <section
+            data-markdown="atomico-example.md"
+            class="wc-example"
+          ></section>
+          <section>
+            <h2>Why Atomico?</h2>
+            <ul>
+              <li class="fragment fade-right">Functional style</li>
+              <li class="fragment fade-right">Hooks!</li>
+              <li class="fragment fade-right">Minimal tooling needed</li>
+              <li class="fragment fade-right">
+                JSX (but works with template literals)
+              </li>
+            </ul>
           </section>
         </section>
         <section>
           <section>
             <h1>Solid</h1>
           </section>
-          <section data-markdown="solid-example.md" class="wc-example">
+          <section
+            data-markdown="solid-example.md"
+            class="wc-example"
+          ></section>
+          <section>
+            <h2>Why Solid?</h2>
+            <ul>
+              <li class="fragment fade-right">Functional style</li>
+              <li class="fragment fade-right">
+                "Hooks" (from Solid's reactive primitives)
+              </li>
+              <li class="fragment fade-right">
+                JSX (but works with template literals)
+              </li>
+              <li class="fragment fade-right">
+                Components can be merely organizational
+              </li>
+            </ul>
           </section>
         </section>
         <section>
           <section>
             <h1>Svelte</h1>
           </section>
-          <section data-markdown="svelte-example.md" class="wc-example">
+          <section
+            data-markdown="svelte-example.md"
+            class="wc-example"
+          ></section>
+          <section>
+            <h2>Why Svelte?</h2>
+            <p class="fragment">Don't</p>
+            <p class="fragment">
+              Like with many other frameworks (Vue, React, Angular). Custom
+              elements output feels like an after thought
+            </p>
           </section>
           <section data-markdown>
             <textarea data-template>
@@ -356,12 +536,15 @@ const host = get_current_component();
           </section>
         </section>
         <section>
-          <h1>Issues</h1>
-          <ul>
-            <li class="fragment fade-right">Global scope</li>
-            <li class="fragment fade-right">No spec for SSR</li>
-            <li class="fragment fade-right">Some compatibility issues with React (possibly fixed in v18/v19)</li>
-          </ul>
+          <p>
+            Web components are a fantastic technology to add to your toolbox.
+            They allow you to keep the "component driven development" mentality
+            while still remaining in the "Vanilla JS" land.
+          </p>
+          <p>
+            They expand the ecosystem by bringing "components" to the vanilla JS
+            ecosystem of libraries.
+          </p>
         </section>
         <section data-markdown>
           <textarea data-template>
@@ -372,6 +555,7 @@ const host = get_current_component();
 - [stenciljs.com](https://stenciljs.com)
 - [lit.dev](https://lit.dev)
 - [atomicojs.github.io](https://atomicojs.github.io/)
+- [solidjs.com](https://solidjs.com)
 - [Shoelace](https://shoelace.style/)
 - [Vaadin](https://vaadin.com/docs/latest/ds/components)
 - [Material Web](https://github.com/material-components/material-web)
